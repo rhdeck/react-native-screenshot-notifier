@@ -1,12 +1,13 @@
 package com.react_native_screenshot_notifier
 import com.facebook.react.bridge.*
 import com.facebook.react.common.MapBuilder
+import com.facebook.react.modules.core.DeviceEventManagerModule
 import com.abangfadli.shotwatch.ShotWatch
-import com.abankfadli.shotwatch.ScreenshotData
+import com.abangfadli.shotwatch.ScreenshotData
 class react_native_screenshot_notifier(internal var reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     //@ReactClassName=react_native_screenshot_notifier
     val _name: String = "react_native_screenshot_notifier"
-    val _shotwatch:ShotWatch? 
+    var _shotwatch:ShotWatch? = null
     override fun getName(): String { return _name }
     @ReactMethod
     fun test(s: String, p: Promise)  {
@@ -16,8 +17,8 @@ class react_native_screenshot_notifier(internal var reactContext: ReactApplicati
     }
     @ReactMethod
     fun start(p: Promise) {
-        this._shotwatch = new ShotWatch(this.reactContext.getContentResolver(), new ShotWatch.Listener() {
-            override fun onScreenShotTaken(screenshotData: ScreenshotData) {
+        this._shotwatch =  ShotWatch(this.reactContext.getContentResolver(),  ShotWatch.Listener {
+            fun onScreenShotTaken(screenshotData: ScreenshotData) {
                 sendEvent("screenshotTaken", null)
             }
         })
@@ -28,21 +29,29 @@ class react_native_screenshot_notifier(internal var reactContext: ReactApplicati
 
     @ReactMethod
     fun resume(p: Promise) {
-        this._shotwatch.register()
-        val m = Arguments.createMap();
-        m.putString("success", "ok")
-        p.resolve(m)
+        this._shotwatch?.let {
+            it.register()
+            val m = Arguments.createMap();
+            m.putString("success", "ok")
+            p.resolve(m)
+        } ?: run {
+            p.reject("Shotwatch not initialized", "")
+        }
     }
 
     @ReactMethod
     fun pause(p: Promise) {
-        this._shotwatch.unregister()
-        val m = Arguments.createMap();
-        m.putString("success", "ok")
-        p.resolve(m)
+        this._shotwatch?.let {
+            it.unregister()
+            val m = Arguments.createMap();
+            m.putString("success", "ok")
+            p.resolve(m)
+        } ?: run {
+            p.reject("Shotwatch not initialized", "")
+        }
     }
 
-    fun sendMessage(message: String, args:WriteableMap?) {
-        this.reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEmitter.class).emit(message, args)
+    fun sendEvent(message: String, args:WritableMap?) {
+        this.getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter::class.java).emit(message, args)
     }
 }

@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.react_native_screenshot_notifier">
-          <application />
+    package="com.react_native_screenshot_notifier">
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <application />
 </manifest>
