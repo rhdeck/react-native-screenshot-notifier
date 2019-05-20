@@ -1,0 +1,16 @@
+{
+  "name": "react-native-screenshot-notifier",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "react-native-update-gradle": "^1.0.0"
+  },
+  "scripts": {
+    "bridge": "react-native-kotlin-bridge",
+    "watch": "react-native-kotlin-bridge --watch"
+  },
+  "main": "react-kotlin-bridge.js",
+  "isKotlin": true,
+  "devDependencies": {
+    "react-native-kotlin-bridge": "https://github.com/rhdeck/react-native-kotlin-bridge"
+  }
+}
