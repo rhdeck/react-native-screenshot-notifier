@@ -135,3 +135,7 @@ Pause screenshot listening (normally managed automatically by `start`)
 **Very Low-Level - probably should not use**
 
 Pause screenshot listening (normally managed automatically by `start`)
+
+## Credit
+
+This package depends on and embeds the great, terse [ShotWatch](https://github.com/abangfadli/shotwatch) library code.
