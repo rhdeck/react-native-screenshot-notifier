@@ -1,6 +1,6 @@
 # react-native-screenshot-notifier
 
-React-Native module for getting notified of screenshots on Android. (note this does not disable )
+React-Native module for getting notified of screenshots on _Android_. (Not for iOS)
 
 ## Installation
 
