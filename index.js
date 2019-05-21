@@ -3,6 +3,7 @@ import {
   resume as doResume,
   pause as doPause
 } from "./react-kotlin-bridge";
+import { useEffect, useState } from "react";
 import { DeviceEventEmitter, PermissionsAndroid, AppState } from "react-native";
 const getPermission = async (options = {}) => {
   const {
@@ -30,17 +31,14 @@ const onScreenshotTaken = async args => {
 };
 //#endregion
 //#region AppState management
-let _appState = AppState.currentState();
+let _appState = AppState.currentState;
 const onAppStateChange = nextAppState => {
-  if (
-    this.state.appState.match(/inactive|background/) &&
-    nextAppState === "active"
-  ) {
+  if (_appState.match(/inactive|background/) && nextAppState === "active") {
     resume();
   } else {
     pause();
   }
-  this.setState({ appState: nextAppState });
+  _appState = nextAppState;
 };
 //#endregion
 const start = async options => {
@@ -67,6 +65,30 @@ const stop = async () => {
   await pause();
   AppState.removeListener("change", onAppStateChange);
 };
+
+const useScreenshotNotifier = options => {
+  if (!options) options = {};
+  if (typeof options === "function") {
+    options = {};
+    callback = options;
+  }
+  const { callback } = options;
+  const [id, setId] = useState("");
+  const [fileName, setFileName] = useState("");
+  const [path, setPath] = useState("");
+  useEffect(() => {
+    start({
+      ...options,
+      callback: ({ id, fileName, path }) => {
+        setId(id);
+        setFileName(fileName);
+        setPath(path);
+      }
+    });
+    return () => stop();
+  }, [options, callback]);
+  return { id, fileName, path };
+};
 const resume = async () => {
   if (!_listener)
     _listener = DeviceEventEmitter.addListener(
@@ -91,4 +113,12 @@ const removeListener = f => {
   if (i > -1) _listeners.splice(i, 1);
   return true;
 };
-export { start, stop, resume, pause, addListener, removeListener };
+export {
+  start,
+  stop,
+  resume,
+  pause,
+  addListener,
+  removeListener,
+  useScreenshotNotifier
+};
