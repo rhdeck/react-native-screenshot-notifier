@@ -74,3 +74,8 @@ typings/
 
 # FuseBox cache
 .fusebox/
+android/.project
+
+.gradle/
+.settings/
+*.lock

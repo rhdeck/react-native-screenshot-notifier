@@ -17,8 +17,8 @@ class react_native_screenshot_notifier(internal var reactContext: ReactApplicati
     }
     @ReactMethod
     fun start(p: Promise) {
-        this._shotwatch =  ShotWatch(this.reactContext.getContentResolver(),  ShotWatch.Listener {
-            fun onScreenShotTaken(screenshotData: ScreenshotData) {
+        this._shotwatch =  ShotWatch(this.reactContext.getContentResolver(),  object: ShotWatch.Listener {
+            override fun onScreenShotTaken(screenshotData: ScreenshotData?) {
                 sendEvent("screenshotTaken", null)
             }
         })
