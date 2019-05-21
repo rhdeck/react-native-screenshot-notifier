@@ -126,10 +126,12 @@ Remove that listener by reference
 
 ### async pause()
 
-** Very Low-Level - probably should not use **
+**Very Low-Level - probably should not use**
+
 Pause screenshot listening (normally managed automatically by `start`)
 
 ### async resume()
 
-** Very Low-Level - probably should not use **
+**Very Low-Level - probably should not use**
+
 Pause screenshot listening (normally managed automatically by `start`)
