@@ -8,6 +8,13 @@
     "bridge": "react-native-kotlin-bridge",
     "watch": "react-native-kotlin-bridge --watch"
   },
+  "homepage": "https://github.com/rhdeck/react-native-screenshot-notifier",
+  "license": "MIT",
+  "author": "Ray Deck",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/rhdeck/react-native-screenshot-notifier"
+  },
   "main": "index.js",
   "isKotlin": true,
   "devDependencies": {
