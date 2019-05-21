@@ -11,7 +11,7 @@ class react_native_screenshot_notifier(internal var reactContext: ReactApplicati
     override fun getName(): String { return _name }
     @ReactMethod
     fun test(s: String, p: Promise)  {
-        val m = Arguments.createMap();
+        val m = Arguments.createMap()
         m.putString("message", s + " and such")
         p.resolve(m)
     }
@@ -19,10 +19,14 @@ class react_native_screenshot_notifier(internal var reactContext: ReactApplicati
     fun start(p: Promise) {
         this._shotwatch =  ShotWatch(this.reactContext.getContentResolver(),  object: ShotWatch.Listener {
             override fun onScreenShotTaken(screenshotData: ScreenshotData?) {
-                sendEvent("screenshotTaken", null)
+                val m = Arguments.createMap()
+                m.putString("id", screenshotData?.getId().toString())
+                m.putString("fileName", screenshotData?.getFileName())
+                m.putString("path", screenshotData?.getPath())
+                sendEvent("screenshotTaken", m)
             }
         })
-        val m = Arguments.createMap();
+        val m = Arguments.createMap()
         m.putString("success", "ok")
         p.resolve(m)
     }
@@ -31,7 +35,7 @@ class react_native_screenshot_notifier(internal var reactContext: ReactApplicati
     fun resume(p: Promise) {
         this._shotwatch?.let {
             it.register()
-            val m = Arguments.createMap();
+            val m = Arguments.createMap()
             m.putString("success", "ok")
             p.resolve(m)
         } ?: run {
@@ -43,7 +47,7 @@ class react_native_screenshot_notifier(internal var reactContext: ReactApplicati
     fun pause(p: Promise) {
         this._shotwatch?.let {
             it.unregister()
-            val m = Arguments.createMap();
+            val m = Arguments.createMap()
             m.putString("success", "ok")
             p.resolve(m)
         } ?: run {
