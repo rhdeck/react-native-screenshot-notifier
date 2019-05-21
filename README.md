@@ -1,19 +1,28 @@
 # react-native-screenshot-notifier
+
 React-Native module for getting notified of screenshots on Android. (note this does not disable )
 
-# Installation
+## Installation
+
 ```bash
 yarn add react-native-screenshot-notifier
 react-native link react-native-screenshot-notifier
 ```
-# usage: Hooks!
-## useScreenshotNotifier()
+
+## Best API: Hooks!
+
+### useScreenshotNotifier()
+
 Returns array of `id`, `fileName` and `path` of captured screenshot
-### Usage
+
+#### Usage
+
 ```js
-const { id, fileName, path} = useScreenshotNotifier()
+const { id, fileName, path } = useScreenshotNotifier();
 ```
-### Sample App
+
+#### Sample App
+
 ```js
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -45,13 +54,19 @@ const styles = StyleSheet.create({
   }
 });
 ```
-## useDisableScreenshots(disableScreenshots = true)
+
+### useDisableScreenshots(disableScreenshots = true)
+
 Disables screenshots (or turns them back on if `disableScreenshots` is `false`)
-### Usage
+
+#### Usage
+
 ```js
-useDisableScreenshots(); // That's it. 
+useDisableScreenshots(); // That's it.
 ```
-### Sample App
+
+#### Sample App
+
 ```js
 import React from "react";
 import { StyleSheet, Text, View } from "react-native";
@@ -78,3 +93,43 @@ const styles = StyleSheet.create({
   }
 });
 ```
+
+## Low-Level API
+
+### async disableScreenshots()
+
+Yes, it disables screenshots.
+
+### async enableScreenshots()
+
+And it enables screenshots. Documentation FTW.
+
+### async getPermission()
+
+Get permission to use the `READ_EXTERNAL_STORAGE` API as required to detect screenshots.
+
+### async start(options)
+
+Start listening for screenshots
+
+### async stop
+
+Stop listening for screenshots
+
+### async addListener(func)
+
+Add a callback for when a screenshot is returned
+
+### async removeListener(func)
+
+Remove that listener by reference
+
+### async pause()
+
+** Very Low-Level - probably should not use **
+Pause screenshot listening (normally managed automatically by `start`)
+
+### async resume()
+
+** Very Low-Level - probably should not use **
+Pause screenshot listening (normally managed automatically by `start`)
